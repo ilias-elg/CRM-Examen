@@ -1,4 +1,4 @@
-fetch("/api/clients")
+fetch("https://crm-examen-ochre.vercel.app/api/clients")
     .then(res => res.json())
     .then(clients => {
         clients.forEach(client => {
