@@ -1,7 +1,6 @@
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
-import path from 'path'
 import { MongoClient } from 'mongodb'
 dotenv.config()
 
@@ -10,7 +9,6 @@ const port = process.env.PORT || 4000
 
 app.use(cors())
 app.use(express.json())
-app.use(express.static(path.join(import.meta.dirname, "../front")))
 
 const client = new MongoClient(process.env.MONGODB_URI)
 client.connect()
@@ -22,8 +20,24 @@ const clients = [
     { id: 2, nom: "Deuxième client" }
 ]
 
+app.get('/', (req, res) => {
+    res.send('Hello from the front, Ilias El Guennouni')
+})
+
+app.get('/login', (req, res) => {
+    res.send('Bienvenue sur la route login')
+})
+
+app.get('/sign-up', (req, res) => {
+    res.send('Bienvenue sur la route sign up')
+})
+
 app.get('/api/clients', (req, res) => {
     res.json(clients)
+})
+
+app.get('/api/test', (req, res) => {
+    res.json({ message: "Connexion Front-Back réussie" })
 })
 
 app.listen(port, () => {
