@@ -1,17 +1,24 @@
-require("dotenv").config();
-const http = require("http");
-const { MongoClient } = require("mongodb");
+import express from 'express'
+import cors from 'cors'
+import dotenv from 'dotenv'
+import { MongoClient } from 'mongodb'
+dotenv.config()
 
-const PORT = 3000;
+const app = express()
+const port = process.env.PORT || 4000
 
-const client = new MongoClient(process.env.MONGODB_URI);
+app.use(cors())
+app.use(express.json())
 
+const client = new MongoClient(process.env.MONGODB_URI)
 client.connect()
     .then(() => console.log("Connecté à MongoDB"))
-    .catch((err) => console.error("Erreur de connexion à MongoDB :", err.message));
+    .catch((err) => console.error("Erreur de connexion à MongoDB :", err.message))
 
-const server = http.createServer((req, res) => {
-    res.end("Serveur CRM");
-});
+app.get('/', (req, res) => {
+    res.send('Mon premier backend marche !')
+})
 
-server.listen(PORT, () => console.log(`Serveur démarré sur le port ${PORT}`));
+app.listen(port, () => {
+    console.log("serveur tourne bien au " + port)
+})
